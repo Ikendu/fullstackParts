@@ -1,0 +1,19 @@
+sequenceDiagram
+    participant U as User
+    participant B as Browser
+    participant S as Server
+    participant D as Database
+
+    U->>B: Type a new note into the input field
+    U->>B: Click "Save" button
+    Note right of B: JavaScript event handler captures form data
+
+    B->>S: POST /new_note_spa<br/>Body: {"content": "Note text"}
+    Note right of S: Server saves new note to database
+
+    S->>D: INSERT note into database
+    D-->>S: Success confirmation
+
+    S-->>B: JSON response {"success": true, "note": {...}}
+    Note right of B: Browser updates local note list<br/>and re-renders without page reload
+    B-->>U: Updated note list displayed instantly
