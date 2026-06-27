@@ -1,0 +1,20 @@
+sequenceDiagram
+    participant U as User
+    participant B as Browser
+    participant S as Server
+    participant D as Database
+
+    U->>B: Open SPA URL<br/>https://studies.cs.helsinki.fi/exampleapp/spa
+    B->>S: GET /spa
+    S-->>B: HTML page
+    Note right of B: Browser loads HTML shell
+
+    B->>S: GET /main.css and GET /main.js
+    S-->>B: CSS and JavaScript files
+    Note right of B: Browser executes JS<br/>and builds dynamic UI
+
+    B->>S: GET /data.json
+    S-->>B: JSON list of notes
+    Note right of B: Browser renders notes dynamically on page
+
+    U-->>B: Interacts with page without full reload
