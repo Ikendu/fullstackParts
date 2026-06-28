@@ -1,3 +1,4 @@
+import Counter from './Counter.jsx'
 const Header = (props) =>{
     return (
       <div>
@@ -76,6 +77,7 @@ const course = 'Half Stack application development'
       <Header course={course} />
       <Content parts={parts} />
       <Total parts={parts} />
+      <Counter />
     </div>
   ) 
       
