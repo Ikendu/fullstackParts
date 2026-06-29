@@ -1,4 +1,5 @@
 import Counter from './Counter.jsx'
+import ObjState from './ObjState.jsx'
 const Header = (props) =>{
     return (
       <div>
@@ -78,6 +79,7 @@ const course = 'Half Stack application development'
       <Content parts={parts} />
       <Total parts={parts} />
       <Counter />
+      <ObjState />
     </div>
   ) 
       
