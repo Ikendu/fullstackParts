@@ -1,6 +1,7 @@
 import { useState } from "react";
 import StatisticsLine from "./components/StatisticLine";
 import Button from "./components/Button";
+import Anecdote from "./components/Anecdoct";
 
 const Statistics = ({ good, neutral, bad }) => {
   const total = good + neutral + bad;
@@ -48,6 +49,7 @@ const App = () => {
           <h4>No feedback given</h4>
         )}
       </>
+      <Anecdote />
     </>
   );
 };
