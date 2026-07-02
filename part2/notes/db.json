@@ -3,7 +3,7 @@
     {
       "id": "1",
       "content": "HTML is easy",
-      "important": true
+      "important": false
     },
     {
       "id": "2",
@@ -20,5 +20,6 @@
       "content": "React is alsoeasy",
       "important": true
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

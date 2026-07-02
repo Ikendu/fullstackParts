@@ -1,17 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FormInput from "./components/FormImput";
 import Persons from "./components/Persons";
+import { getAll } from "../phonebook";
+import SearchInput from "./components/SearchInput";
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: "Arto Hellas", number: "040-123456", id: 1 },
-    { name: "Ada Lovelace", number: "39-44-5323523", id: 2 },
-    { name: "Dan Abramov", number: "12-43-234345", id: 3 },
-    { name: "Mary Poppendieck", number: "39-23-6423122", id: 4 },
-  ]);
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filterText, setFilterText] = useState("");
+
+  useEffect(() => {
+    getAll().then((initialPersons) => {
+      console.log("Initial persons:", initialPersons);
+      setPersons(initialPersons);
+    });
+  }, []);
 
   const addPerson = (e) => {
     e.preventDefault();
@@ -29,6 +33,25 @@ const App = () => {
     person.name.toLowerCase().includes(filterText.toLowerCase()),
   );
 
+  const handleDelete = (id) => {
+    const personToDelete = persons.find((person) => person.id === id);
+    if (personToDelete) {
+      const confirmDelete = window.confirm(
+        `Are you sure you want to delete ${personToDelete.name}?`,
+      );
+      if (confirmDelete) {
+        const updatedPersons = persons.filter((person) => person.id !== id);
+        
+        setPersons(updatedPersons);
+        alert(`${personToDelete.name} has been deleted from the phonebook.`);
+      } else {
+        alert(`Deletion of ${personToDelete.name} canceled.`);
+      }
+    } else {
+      alert("Person not found.");
+    }
+  };
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -44,7 +67,7 @@ const App = () => {
         setNewNumber={setNewNumber}
       />
       <h2>Numbers</h2>
-      <Persons filteredPersons={filteredPersons} />
+      <Persons filteredPersons={filteredPersons} handleDelete={handleDelete} />
     </div>
   );
 };

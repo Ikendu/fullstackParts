@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useEffect } from "react";
 import Note from "./components/Note";
+import { getAll, update } from "./services/notes";
 
 function App() {
   const [notes, setNotes] = React.useState([]);
@@ -9,8 +10,9 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/notes");
-        setNotes(response.data);
+        getAll().then((response) => {
+          setNotes(response.data);
+        });
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -23,8 +25,7 @@ function App() {
     const note = notes.find((n) => n.id === id);
     const updatedNote = { ...note, important: !note.important };
 
-    axios
-      .put(`http://localhost:3001/notes/${id}`, updatedNote)
+    update(id, updatedNote)
       .then((response) => {
         setNotes(notes.map((n) => (n.id !== id ? n : response.data)));
       })
