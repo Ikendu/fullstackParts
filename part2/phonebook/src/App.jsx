@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import FormInput from "./components/FormImput";
 import Persons from "./components/Persons";
-import { getAll } from "../phonebook";
+import { getAll, create, remove } from "../phonebook";
 import SearchInput from "./components/SearchInput";
 
 const App = () => {
@@ -17,13 +17,18 @@ const App = () => {
     });
   }, []);
 
-  const addPerson = (e) => {
+  const addPerson = async (e) => {
     e.preventDefault();
     const newPerson = { name: newName, number: newNumber, id: Date.now() };
-    if (persons.some((person) => person.name === newName)) {
+    if (
+      persons.some(
+        (person) => person.name === newName && person.number === newNumber,
+      )
+    ) {
       alert(`${newName} is already added to phonebook`);
       return;
     }
+    await create(newPerson);
     setPersons([...persons, newPerson]);
     setNewName("");
     setNewNumber("");
@@ -33,7 +38,9 @@ const App = () => {
     person.name.toLowerCase().includes(filterText.toLowerCase()),
   );
 
-  const handleDelete = (id) => {
+  // const
+
+  const handleDelete = async (id) => {
     const personToDelete = persons.find((person) => person.id === id);
     if (personToDelete) {
       const confirmDelete = window.confirm(
@@ -41,7 +48,7 @@ const App = () => {
       );
       if (confirmDelete) {
         const updatedPersons = persons.filter((person) => person.id !== id);
-        
+        await remove(id);
         setPersons(updatedPersons);
         alert(`${personToDelete.name} has been deleted from the phonebook.`);
       } else {
