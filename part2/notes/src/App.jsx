@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useEffect } from "react";
+import Note from "./components/Note";
 
 function App() {
   const [notes, setNotes] = React.useState([]);
@@ -18,14 +19,30 @@ function App() {
     fetchData();
   }, []);
 
+  const toggleImportance = (id) => {
+    const note = notes.find((n) => n.id === id);
+    const updatedNote = { ...note, important: !note.important };
+
+    axios
+      .put(`http://localhost:3001/notes/${id}`, updatedNote)
+      .then((response) => {
+        setNotes(notes.map((n) => (n.id === id ? response.data : n)));
+      })
+      .catch((error) => {
+        console.error("Error updating note:", error);
+      });
+  };
+
   return (
     <div>
       <h1>Notes</h1>
       <>
         {notes.map((note) => (
           <div key={note.id}>
-            <p>{note.content}</p>
-            <p>Important: {note.important ? "Yes" : "No"}</p>
+            <Note
+              note={note}
+              toggleImportance={() => toggleImportance(note.id)}
+            />
           </div>
         ))}
       </>
