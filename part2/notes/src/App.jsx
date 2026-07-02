@@ -26,7 +26,7 @@ function App() {
     axios
       .put(`http://localhost:3001/notes/${id}`, updatedNote)
       .then((response) => {
-        setNotes(notes.map((n) => (n.id === id ? response.data : n)));
+        setNotes(notes.map((n) => (n.id !== id ? n : response.data)));
       })
       .catch((error) => {
         console.error("Error updating note:", error);
