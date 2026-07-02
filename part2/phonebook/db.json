@@ -29,6 +29,21 @@
       "id": "6",
       "name": "Dan Abramov",
       "number": "12-43-234345"
+    },
+    {
+      "name": "Gitf",
+      "number": "0028474758",
+      "id": "CSUYEhR-cUE"
+    },
+    {
+      "name": "Heren",
+      "number": "Muareen",
+      "id": "QUAVhbnHJEw"
+    },
+    {
+      "name": "Obinna",
+      "number": "990887227",
+      "id": "6GBprCOEVeM"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
