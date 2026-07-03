@@ -3,7 +3,10 @@ const http = require("http");
 const express = require("express");
 const app = express();
 
-const notes = [
+// Middleware to parse JSON request bodies, for making POST requests easier to handle
+app.use(express.json());
+
+let notes = [
   {
     id: "1",
     content: "HTML is easy",
@@ -38,7 +41,35 @@ app.get("/api/notes", (req, res) => {
 app.get("/api/notes/:id", (req, res) => {
   const id = req.params.id;
   const note = notes.find((note) => note.id === id);
-  res.json(note);
+  //   res.json(note);
+  if (note) {
+    res.json(note);
+  } else {
+    res.status(404).end();
+  }
+});
+
+app.post("/api/notes", (req, res) => {
+  const post = req.body;
+  if (!post.content) {
+    return res.status(400).json({ error: "Content missing" });
+  }
+  const id = notes.length + 1;
+  post.id = id.toString();
+  notes = [...notes, post];
+  console.log("New note added:", post);
+  res.status(201).json(post);
+});
+
+app.delete("/api/notes/:id", (req, res) => {
+  const id = req.params.id;
+  const otherNotes = notes.filter((note) => note.id !== id);
+  if (otherNotes.length === notes.length) {
+    res.status(404).end();
+  } else {
+    notes = otherNotes;
+    res.status(204).end();
+  }
 });
 
 // const app = http.createServer((req, res) => {
