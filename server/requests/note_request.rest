@@ -1,15 +1,15 @@
-GET http://localhost:3000/api/notes
+GET http://localhost:3000/api/phonebook
 
 ###
 
-GET http://localhost:3000/api/notes/1
+GET http://localhost:3000/api/phonebook/1
 
 ###
 
-POST http://localhost:3000/api/notes
+POST http://localhost:3000/api/phonebook
 Content-Type: application/json
 
 {
-  "content": "This is a new note",
-  "important": true
+  "name": "John Doe",
+  "number": "123-456-7890"
 }

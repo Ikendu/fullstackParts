@@ -6,26 +6,26 @@ const app = express();
 // Middleware to parse JSON request bodies, for making POST requests easier to handle
 app.use(express.json());
 
-let notes = [
+let phonebook = [
   {
     id: "1",
-    content: "HTML is easy",
-    important: true,
+    name: "Arto Hellas",
+    number: "040-123456",
   },
   {
     id: "2",
-    content: "Browser can execute only JavaScript",
-    important: false,
+    name: "Ada Lovelace",
+    number: "39-44-5323523",
   },
   {
     id: "3",
-    content: "GET and POST are the most important methods of HTTP protocol",
-    important: true,
+    name: "Dan Abramov",
+    number: "12-43-234345",
   },
   {
     id: "4",
-    content: "The Server in the backend is a Node.js application",
-    important: true,
+    name: "Mary Poppendieck",
+    number: "39-23-6423122",
   },
 ];
 
@@ -34,47 +34,54 @@ app.get("/", (req, res) => {
   res.send("<h1>Hello, World!</h1>");
 });
 
-app.get("/api/notes", (req, res) => {
-  res.json(notes);
+app.get("/api/phonebook", (req, res) => {
+  res.json(phonebook);
 });
 
-app.get("/api/notes/:id", (req, res) => {
+app.get("/info", (req, res) => {
+    const currentDate = new Date();
+    const info = `<p>Phonebook has info for ${phonebook.length} people</p>
+    <p>${currentDate}</p>`;
+    res.send(info);
+})
+
+app.get("/api/phonebook/:id", (req, res) => {
   const id = req.params.id;
-  const note = notes.find((note) => note.id === id);
+  const contact = phonebook.find((contact) => contact.id === id);
   //   res.json(note);
-  if (note) {
-    res.json(note);
+  if (contact) {
+    res.json(contact);
   } else {
     res.status(404).end();
   }
 });
 
-app.post("/api/notes", (req, res) => {
-  const post = req.body;
-  if (!post.content) {
-    return res.status(400).json({ error: "Content missing" });
+app.post("/api/phonebook", (req, res) => {
+  const contact = req.body;
+  if (!contact.name || !contact.number) {
+    return res.status(400).json({ error: "Name and number are required" });
   }
-  const id = notes.length + 1;
-  post.id = id.toString();
-  notes = [...notes, post];
-  console.log("New note added:", post);
-  res.status(201).json(post);
+  const id = phonebook.length + 1;
+  contact.id = id.toString();
+  phonebook = [...phonebook, contact];
+  console.log("New contact added:", contact);
+  res.status(201).json(contact);
 });
 
-app.delete("/api/notes/:id", (req, res) => {
+app.delete("/api/phonebook/:id", (req, res) => {
   const id = req.params.id;
-  const otherNotes = notes.filter((note) => note.id !== id);
-  if (otherNotes.length === notes.length) {
+  const otherContacts = phonebook.filter((contact) => contact.id !== id);
+  if (otherContacts.length === phonebook.length) {
     res.status(404).end();
   } else {
-    notes = otherNotes;
+    phonebook = otherContacts;
     res.status(204).end();
   }
 });
 
 // const app = http.createServer((req, res) => {
 //   res.writeHead(200, { "Content-Type": "application/json" });
-//   res.end(JSON.stringify(notes));
+//   res.end(JSON.stringify(phonebook));
 // });
 
 const PORT = 3000;
