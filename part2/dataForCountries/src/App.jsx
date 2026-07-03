@@ -3,22 +3,34 @@ import { getAll } from "../coutriesData";
 
 function App() {
   const [countryName, setCountryName] = useState("");
-  const [countryData, setCountryData] = useState([]);
-  const [isFound, setIsFound] = useState(false);
+  const [allCountries, setAllCountries] = useState([]);
+  const [filteredCountries, setFilteredCountries] = useState([]);
 
   useEffect(() => {
-    if (countryName) {
-      getAll(countryName)
-        .then((data) => {
-          setCountryData(data);
-          setIsFound(true);
-        })
-        .catch((error) => {
-          console.error("Error fetching country data:", error);
-          setIsFound(false);
-        });
-    }
+    getAll()
+      .then((data) => {
+        setAllCountries(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching countries:", error);
+      });
   }, []);
+
+  useEffect(() => {
+    const query = countryName.trim().toLowerCase();
+    if (!query) {
+      setFilteredCountries([]);
+      return;
+    }
+
+    setFilteredCountries(
+      allCountries.filter((country) => {
+        const commonName = country?.name?.common?.toLowerCase() || "";
+        const officialName = country?.name?.official?.toLowerCase() || "";
+        return commonName.includes(query) || officialName.includes(query);
+      }),
+    );
+  }, [countryName, allCountries]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -31,7 +43,7 @@ function App() {
 
   return (
     <div>
-      <h1>Find Countries Data</h1>
+      <h2>Find Countries Data</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -42,13 +54,33 @@ function App() {
         <button type="submit">Search</button>
       </form>
 
-      {isFound ? (
+      {filteredCountries.length > 0 ? (
         <div>
-          <h2>Country Data:</h2>
-          <pre>{JSON.stringify(countryData, null, 2)}</pre>
+          <h2>Matching countries:</h2>
+          {filteredCountries.map((country) => (
+            <div
+              key={country.cca3 || country.name.common}
+              style={{
+                padding: "12px",
+                border: "1px solid #ccc",
+                marginBottom: "16px",
+              }}>
+              <h3>{country.name.common}</h3>
+              <p>Official name: {country.name.official}</p>
+              <p>Capital: {country.capital?.join(", ") || "N/A"}</p>
+              <p>Region: {country.region || "N/A"}</p>
+              <img
+                src={country.flags?.png || country.flags?.svg}
+                alt={`Flag of ${country.name.common}`}
+                width="120"
+              />
+            </div>
+          ))}
         </div>
       ) : (
-        countryName && <p>No data found for the specified country.</p>
+        countryName.trim() && (
+          <p>No countries found matching "{countryName.trim()}".</p>
+        )
       )}
     </div>
   );

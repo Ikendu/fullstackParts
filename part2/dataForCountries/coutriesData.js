@@ -1,8 +1,14 @@
 import axios from "axios";
 
-const baseUrl = "https://studies.cs.helsinki.fi/restcountries/api/name/";
+const allCountries = "https://studies.cs.helsinki.fi/restcountries/api/all";
+const countryName = "https://studies.cs.helsinki.fi/restcountries/api/name/";
 
-export const getAll = async (name) => {
-  const response = await axios.get(baseUrl + name);
+export const getAll = async () => {
+  const response = await axios.get(allCountries);
+  return response.data;
+};
+
+export const getByName = async (name) => {
+  const response = await axios.get(countryName + name);
   return response.data;
 };
