@@ -12,6 +12,7 @@ app.use(cors());
 
 // Middleware to parse JSON request bodies, for making POST requests easier to handle
 app.use(express.json());
+app.use(express.static("dist"));
 
 // create a write stream (in append mode)
 // var accessLogStream = fs.createWriteStream(path.join(__dirname, "access.log"), {
