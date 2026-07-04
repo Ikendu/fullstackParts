@@ -1,10 +1,33 @@
 const http = require("http");
 // import http from "http";
 const express = require("express");
+const morgan = require("morgan");
+const fs = require("fs");
+const path = require("path");
+const cors = require("cors");
+
 const app = express();
+
+app.use(cors());
 
 // Middleware to parse JSON request bodies, for making POST requests easier to handle
 app.use(express.json());
+
+// create a write stream (in append mode)
+// var accessLogStream = fs.createWriteStream(path.join(__dirname, "access.log"), {
+//   flags: "a",
+// });
+
+// const logger = () => {
+//   console.log(req.url);
+//   console.log("Method:", request.method);
+//   console.log("Path:  ", request.path);
+//   console.log("Body:  ", request.body);
+// };
+
+// setup the logger
+// app.use(morgan("combined", { stream: accessLogStream }));
+// app.use(morgan("combined", logger()));
 
 let phonebook = [
   {
@@ -31,7 +54,7 @@ let phonebook = [
 
 app.get("/", (req, res) => {
   console.log(req);
-  res.send("<h1>Hello, World!</h1>");
+  res.send("<h1>Hello, World! We are deployed</h1>");
 });
 
 app.get("/api/phonebook", (req, res) => {
@@ -39,11 +62,11 @@ app.get("/api/phonebook", (req, res) => {
 });
 
 app.get("/info", (req, res) => {
-    const currentDate = new Date();
-    const info = `<p>Phonebook has info for ${phonebook.length} people</p>
+  const currentDate = new Date();
+  const info = `<p>Phonebook has info for ${phonebook.length} people</p>
     <p>${currentDate}</p>`;
-    res.send(info);
-})
+  res.send(info);
+});
 
 app.get("/api/phonebook/:id", (req, res) => {
   const id = req.params.id;
@@ -84,7 +107,7 @@ app.delete("/api/phonebook/:id", (req, res) => {
 //   res.end(JSON.stringify(phonebook));
 // });
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
