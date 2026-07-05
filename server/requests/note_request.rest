@@ -13,3 +13,7 @@ Content-Type: application/json
   "name": "John Doe",
   "number": "123-456-7890"
 }
+
+###
+
+POST http://localhost:3000/api/phonebook/clean
