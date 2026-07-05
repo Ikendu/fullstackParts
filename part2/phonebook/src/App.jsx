@@ -71,7 +71,7 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h2>Younglife Phonebook</h2>
       <div>
         <h4>filter shown with</h4>
         {isAdded && (
