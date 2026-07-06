@@ -64,7 +64,7 @@ app.get("/api/phonebook/:id", (req, res) => {
 //   res.status(201).json(contact);
 // });
 
-app.post("/api/phonebook", (req, res) => {
+app.post("/api/phonebook", (req, res, next) => {
   const body = req.body;
   console.log("BODY", body);
   if (!body.name || !body.number) {
@@ -74,9 +74,12 @@ app.post("/api/phonebook", (req, res) => {
     name: body.name,
     number: body.number,
   });
-  contact.save().then((result) => {
-    res.status(201).json(result);
-  });
+  contact
+    .save()
+    .then((result) => {
+      res.status.json(result);
+    })
+    .catch((error) => next(error));
 });
 
 // edit a single contact
@@ -140,6 +143,8 @@ const errorHandlar = (error, req, res, next) => {
 
   if (error.name === "CastError") {
     return res.status(400).send({ Error: "Malformatted Id" });
+  } else if (error.name === "ValidationError") {
+    return res.status(400).json({ error: error.message });
   }
   next(error);
 };
