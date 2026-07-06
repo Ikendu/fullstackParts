@@ -96,6 +96,8 @@ app.put("/api/phonebook/:id", (req, res, next) => {
     .catch((error) => next(error));
 });
 
+// remove all empty entries
+
 app.post("/api/phonebook/clean", async (req, res) => {
   try {
     const result = await removeEmptyEntries();

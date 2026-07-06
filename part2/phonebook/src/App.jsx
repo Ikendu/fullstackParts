@@ -1,9 +1,21 @@
 import { useEffect, useState } from "react";
 import FormInput from "./components/FormImput";
 import Persons from "./components/Persons";
-import { getAll, create, remove } from "../phonebook";
+import { getAll, create, remove, update } from "../phonebook";
 import SearchInput from "./components/SearchInput";
 import "./index.css";
+
+// const UpdateComp = ({ name, number, setName, setNumber }) => {
+//   return (
+//     <div>
+//       <form>
+//         <input type="text" value={name} onChange={(e) => e.target.value} />
+//         <input type="text" value={number} onChange={(e) => e.target.validity} />
+//         <input type="submit" value="Submit" />
+//       </form>
+//     </div>
+//   );
+// };
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -14,6 +26,7 @@ const App = () => {
   const [isAdded, setIsAdded] = useState(false);
   const [notAdded, setNotAdded] = useState(false);
   const [notDeleted, setNotDeleted] = useState(false);
+
 
   useEffect(() => {
     getAll().then((initialPersons) => {
@@ -46,7 +59,24 @@ const App = () => {
     person.name.toLowerCase().includes(filterText.toLowerCase()),
   );
 
-  // const
+  const handleUpdate = async (id, updatedName, updatedNumber) => {
+    const personToUpdate = persons.find((person) => person.id === id);
+
+    if (!personToUpdate) {
+      return;
+    }
+
+    const updatedPerson = {
+      ...personToUpdate,
+      name: updatedName,
+      number: updatedNumber,
+    };
+
+    const savedPerson = await update(id, updatedPerson);
+    setPersons(
+      persons.map((person) => (person.id === id ? savedPerson : person)),
+    );
+  };
 
   const handleDelete = async (id) => {
     const personToDelete = persons.find((person) => person.id === id);
@@ -99,7 +129,11 @@ const App = () => {
       />
       <h2>Numbers</h2>
 
-      <Persons filteredPersons={filteredPersons} handleDelete={handleDelete} />
+      <Persons
+        filteredPersons={filteredPersons}
+        handleDelete={handleDelete}
+        handleUpdate={handleUpdate}
+      />
     </div>
   );
 };

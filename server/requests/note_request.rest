@@ -16,4 +16,14 @@ Content-Type: application/json
 
 ###
 
+PUT  http://localhost:3000/api/phonebook/6a4a1ff4c24d8c5dbe0f1827
+content-Type: application/json
+
+{
+  "name": "Akuoma",
+  "number": "040283948283"
+}
+
+###
+
 POST http://localhost:3000/api/phonebook/clean
