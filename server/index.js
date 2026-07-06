@@ -1,5 +1,4 @@
 const http = require("http");
-// import http from "http";
 const express = require("express");
 const morgan = require("morgan");
 const fs = require("fs");
@@ -14,8 +13,8 @@ const Phonebook = require("./models/phonebook");
 app.use(cors());
 
 // Middleware to parse JSON request bodies, for making POST requests easier to handle
-app.use(express.json());
 app.use(express.static("dist"));
+app.use(express.json());
 
 const password = process?.argv[2];
 
@@ -42,7 +41,15 @@ app.get("/info", (req, res) => {
 });
 
 app.get("/api/phonebook/:id", (req, res) => {
-  Phonebook.findById(req.params.id).then((contact) => res.json(contact));
+  Phonebook.findById(req.params.id)
+    .then((contact) => {
+      if (contact) {
+        res.json(contact);
+      } else {
+        res.status(404).json({ mesg: "Not found" });
+      }
+    })
+    .catch((error) => console.log(error));
 });
 
 // app.post("/api/phonebook", (req, res) => {
@@ -72,6 +79,23 @@ app.post("/api/phonebook", (req, res) => {
   });
 });
 
+// edit a single contact
+
+app.put("/api/phonebook/:id", (req, res, next) => {
+  const { name, number } = req.body;
+
+  Phonebook.findById(req.params.id)
+    .then((result) => {
+      if (!result) return res.status(404).end();
+
+      result.name = name;
+      result.number = number;
+
+      return result.save().then((saved) => res.json(saved));
+    })
+    .catch((error) => next(error));
+});
+
 app.post("/api/phonebook/clean", async (req, res) => {
   try {
     const result = await removeEmptyEntries();
@@ -85,16 +109,40 @@ app.post("/api/phonebook/clean", async (req, res) => {
   }
 });
 
-app.delete("/api/phonebook/:id", (req, res) => {
-  const id = req.params.id;
-  const otherContacts = phonebook.filter((contact) => contact.id !== id);
-  if (otherContacts.length === phonebook.length) {
-    res.status(404).end();
-  } else {
-    phonebook = otherContacts;
-    res.status(204).end();
-  }
+app.delete("/api/phonebook/:id", (req, res, next) => {
+  Phonebook.findByIdAndDelete(req.params.id)
+    .then((result) => {
+      res.status(201).json(result);
+    })
+    .catch((error) => next(error));
 });
+
+// app.delete("/api/phonebook/:id", (req, res) => {
+//   const id = req.params.id;
+//   const otherContacts = phonebook.filter((contact) => contact.id !== id);
+//   if (otherContacts.length === phonebook.length) {
+//     res.status(404).end();
+//   } else {
+//     phonebook = otherContacts;
+//     res.status(204).end();
+//   }
+// });
+
+const unknownEndpoint = (req, res, next) => {
+  res.status(404).send({ error: "Unknown Endpoint" });
+};
+app.use(unknownEndpoint);
+
+const errorHandlar = (error, req, res, next) => {
+  console.error("Error", error.message);
+
+  if (error.name === "CastError") {
+    return res.status(400).send({ Error: "Malformatted Id" });
+  }
+  next(error);
+};
+
+app.use(errorHandlar);
 
 // const app = http.createServer((req, res) => {
 //   res.writeHead(200, { "Content-Type": "application/json" });
