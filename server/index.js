@@ -68,7 +68,7 @@ app.post("/api/phonebook", (req, res, next) => {
   const body = req.body;
   console.log("BODY", body);
   if (!body.name || !body.number) {
-    return res.status(400).json({ error: "Name and number are required" });
+    res.status(400).end();
   }
   const contact = new Phonebook({
     name: body.name,
