@@ -40,3 +40,20 @@ function longestSub(str) {
 }
 
 console.log(longestSub("abcabcdbb"));
+
+// Using Array Method
+
+function longestStrlen(str) {
+  let list = [];
+  let longest = 0;
+
+  for (let char of str) {
+    if (list.indexOf(char) != -1) {
+      if (longest < list.length) longest = list.length;
+      list.splice(0, list.indexOf(char) + 1);
+    }
+    list.push(char);
+  }
+  return Math.max(longest, list.length);
+}
+console.log(longestStrlen("abcabcdefbb"));
