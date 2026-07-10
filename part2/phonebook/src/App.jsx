@@ -26,7 +26,7 @@ const App = () => {
   const [isAdded, setIsAdded] = useState(false);
   const [notAdded, setNotAdded] = useState(false);
   const [notDeleted, setNotDeleted] = useState(false);
-
+  const [added, setAdded] = useState(false);
 
   useEffect(() => {
     getAll().then((initialPersons) => {
@@ -37,7 +37,12 @@ const App = () => {
 
   const addPerson = async (e) => {
     e.preventDefault();
-    const newPerson = { name: newName, number: newNumber, id: Date.now() };
+    if (!newName || !newNumber) {
+      setAdded(true);
+      console.log("Name is needed");
+      return;
+    }
+    const newPerson = { name: newName, number: newNumber };
     if (
       persons.some(
         (person) => person.name === newName && person.number === newNumber,
@@ -47,7 +52,9 @@ const App = () => {
       setTimeout(() => setNotAdded(false), 3000);
       return;
     }
-    await create(newPerson);
+    const result = await create(newPerson);
+    console.log("Created Person", result);
+
     setPersons([...persons, newPerson]);
     setNewName("");
     setNewNumber("");
@@ -73,6 +80,8 @@ const App = () => {
     };
 
     const savedPerson = await update(id, updatedPerson);
+    console.log("SaVED", savedPerson);
+
     setPersons(
       persons.map((person) => (person.id === id ? savedPerson : person)),
     );
@@ -104,6 +113,9 @@ const App = () => {
       <h2>Younglife Phonebook</h2>
       <div>
         <h4>filter shown with</h4>
+        {added && (
+          <div className="failure">Name and phone number cannot be empty.</div>
+        )}
         {isAdded && (
           <div className="success">Added {newName} to the phonebook.</div>
         )}

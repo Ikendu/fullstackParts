@@ -13,7 +13,8 @@ function Persons({ filteredPersons, handleDelete, handleUpdate }) {
 
   const submitUpdate = async (e, id) => {
     e.preventDefault();
-    await handleUpdate(id, editedName, editedNumber);
+    const result = await handleUpdate(id, editedName, editedNumber);
+    console.log("Result", result);
     setEditingId(null);
   };
 
