@@ -1,10 +1,11 @@
+// Create a Node of a LinkedList
 class Node {
   constructor(value, next = null) {
     this.value = value;
     this.next = next;
   }
 }
-
+// Transform array to a LinkedList
 function createLinkedList(arr) {
   if (arr.length == 0) return;
 
@@ -18,6 +19,7 @@ function createLinkedList(arr) {
   return head;
 }
 
+// print array of linked list
 function printList(head) {
   if (!head) return [];
 
@@ -32,11 +34,7 @@ function printList(head) {
   return arryalist;
 }
 
-console.log(createLinkedList([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
-console.log(reorderList([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
-
 function reorderList(arr) {
-  let head = createLinkedList(arr);
   if (!head.next || !head.next.next) return;
 
   let fast = head;
@@ -74,6 +72,15 @@ function reorderList(arr) {
     second = temp2;
   }
 
-  return printList(head);
-  //   return head;
+  return head;
 }
+
+let head = createLinkedList([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+
+// console.log(head);
+reorderList(head);
+
+// Just pass the head after re-ordering, The list is internally reordered and saved
+let list = printList(head);
+
+console.log(list);
