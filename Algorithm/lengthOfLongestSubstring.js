@@ -34,7 +34,8 @@ function longestSub(str) {
       myObj[str[left]] -= 1;
       left++;
     }
-    longest = Math.max(longest, right - left + 1);
+    let long = right - left + 1;
+    longest = Math.max(longest, long);
   }
   return longest;
 }
