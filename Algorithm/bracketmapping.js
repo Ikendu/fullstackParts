@@ -1,3 +1,5 @@
+// using stack and map
+
 function checkBracket(str) {
   let mapping = { "}": "{", "]": "[", ")": "(" };
   let stack = [];
@@ -14,6 +16,8 @@ function checkBracket(str) {
   }
   return stack.length === 0;
 }
+
+// using only stack
 
 function closeBracket(str) {
   let stack = [];
