@@ -1,3 +1,8 @@
+// Example 1:
+// Input: s = "babad"
+// Output: "bab"
+// Explanation: "aba" is also a valid answer.
+
 const longestPalindrome = function (s) {
   if (s.length < 2) return s;
 
