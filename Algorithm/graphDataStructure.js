@@ -1,3 +1,7 @@
+// Graph Data Structure
+// Building graph from Array Data
+// Intro to DFS
+
 let graph = {
   A: ["B", "C", "E"],
   B: ["A", "D"],
@@ -21,6 +25,8 @@ function dfs(node, graph, visited) {
 // console.log(graph);
 
 // console.log(dfs("A", graph, visited));
+
+// Building the graph from Array Data points
 function buildGraph(edge) {
   const graph = {};
 
@@ -33,10 +39,28 @@ function buildGraph(edge) {
   }
   return graph;
 }
-console.log(
-  buildGraph([
-    [0, 1],
-    [1, 2],
-    [2, 0],
-  ]),
-);
+
+// console.log(
+//   buildGraph([
+//     [0, 1],
+//     [1, 2],
+//     [2, 0],
+//   ]),
+// );
+
+// Queue Lesson
+
+let queue = [];
+
+queue.push("A");
+queue.push("B");
+queue.push("C");
+queue.push("D");
+
+console.log(queue);
+queue.shift();
+console.log(queue);
+queue.shift();
+console.log(queue);
+queue.shift();
+console.log(queue);
