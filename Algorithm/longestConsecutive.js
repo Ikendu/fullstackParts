@@ -23,6 +23,8 @@ const longestConsecutive = (nums) => {
   return longest;
 };
 
+
+
 console.log(
   longestConsecutive([3, 2, 1, 5, 4, 7, 10, 20, 21, 22, 80, 84, 100]),
 );
