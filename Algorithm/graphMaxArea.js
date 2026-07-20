@@ -12,8 +12,8 @@ function maxAreaOfIsLand(grid) {
   for (let row = 0; row < grid.length; row++) {
     for (let col = 0; col < grid[0].length; col++) {
       if (grid[row][col] === 1) {
-        let count = bfs(row, col);
-        maxArea = Math.max(count, maxArea);
+        let area = bfs(row, col);
+        maxArea = Math.max(area, maxArea);
       }
     }
   }
@@ -52,3 +52,65 @@ console.log(
 );
 
 console.log(maxAreaOfIsLand([[[0, 0, 0, 0, 0, 0, 0, 0]]]));
+
+// Using BFS
+
+function maxAreaIsland(grid) {
+  let maxArea = 0;
+
+  for (let row = 0; row < grid.length; row++) {
+    for (let col = 0; col < grid[0].length; col++) {
+      if (grid[row][col] === 1) {
+        let area = bfs(row, col);
+        maxArea = Math.max(maxArea, area);
+      }
+    }
+  }
+  function bfs(row, col) {
+    let queue = [[row, col]];
+
+    grid[row][col] = 0;
+    let area = 1;
+
+    let directions = [
+      [-1, 0],
+      [1, 0],
+      [0, -1],
+      [0, 1],
+    ];
+
+    while (queue.length) {
+      let [r, c] = queue.shift();
+
+      for (let [dr, dc] of directions) {
+        let nr = r + dr;
+        let nc = c + dc;
+
+        if (nr >= 0 && nr < grid.length && nc >= 0 && nc < grid[0].length) {
+          if (grid[nr][nc] === 1) {
+            grid[nr][nc] = 0;
+            area++;
+            queue.push([nr, nc]);
+          }
+        }
+      }
+    }
+    return area;
+  }
+  return maxArea;
+}
+
+console.log(
+  maxAreaIsland([
+    [0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+    [0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0],
+    [0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+  ]),
+);
+
+console.log(maxAreaIsland([[[0, 0, 0, 0, 0, 0, 0, 0]]]));
