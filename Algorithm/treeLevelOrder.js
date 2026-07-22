@@ -4,6 +4,36 @@ function TreeNode(val, left, right) {
   this.right = right === undefined ? null : right;
 }
 
+// Building a Tree from Array
+
+function buildTree(arr) {
+  if (arr.length === 0) return null;
+
+  let root = new TreeNode(arr[0]);
+  let queue = [root];
+  let index = 1;
+
+  while (queue.length && index < arr.length) {
+    let parent = queue.shift();
+    if (arr[index] !== null && arr[index] !== undefined) {
+      let left = new TreeNode(arr[index]);
+      parent.left = left;
+      queue.push(left);
+    }
+    index++;
+    if (index < arr.length) {
+      if (arr[index] !== null && arr[index] !== undefined) {
+        let right = new TreeNode(arr[index]);
+        parent.right = right;
+        queue.push(right);
+      }
+    }
+
+    index++;
+  }
+  return root;
+}
+
 function levelOrder(root) {
   if (!root) return [];
 
@@ -18,9 +48,9 @@ function levelOrder(root) {
       let node = queue.shift();
       if (node.left) queue.push(node.left);
       if (node.right) queue.push(node.right);
-      level.push(node)
+      level.push(node);
     }
-    result.push(level)
+    result.push(level);
   }
-  return result
+  return result;
 }
