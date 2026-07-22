@@ -48,9 +48,12 @@ function levelOrder(root) {
       let node = queue.shift();
       if (node.left) queue.push(node.left);
       if (node.right) queue.push(node.right);
-      level.push(node);
+      level.push(node.val);
     }
     result.push(level);
   }
   return result;
 }
+
+let tree = buildTree([3, 9, 20, null, null, 15, 7]);
+console.log(levelOrder(tree));
