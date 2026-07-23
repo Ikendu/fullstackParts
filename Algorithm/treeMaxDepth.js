@@ -9,7 +9,7 @@ function TreeNode(val, left, right) {
 }
 
 // Building a Tree from Array elements
-function buildTree(arr) {
+export function buildTree(arr) {
   if (arr.length < 1) return null;
 
   let root = new TreeNode(arr[0]);
@@ -31,6 +31,23 @@ function buildTree(arr) {
     index++;
   }
   return root;
+}
+
+export function printTree(root) {
+  if (!root) return [];
+
+  let queue = [root];
+  let printed = [];
+
+  while (queue.length) {
+    let node = queue.shift();
+
+    printed.push(node.val);
+
+    if (node.left) queue.push(node.left);
+    if (node.right) queue.push(node.right);
+  }
+  return printed;
 }
 
 // MaxDept Tree
