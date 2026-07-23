@@ -73,9 +73,22 @@ function sameTree(p, q) {
   return true;
 }
 
+// Recursive Approach
+function treeSame(p, q) {
+  if (!p && !q) return true;
+  if (!p || !q) return false;
+  if (p.val !== q.val) return false;
+
+  let left = treeSame(p.left, q.left);
+  let right = treeSame(p.right, q.righ);
+
+  return left && right;
+}
+
 let p = buildTree([1, 2, 3]);
-let q = buildTree([1, 2, 3]);
+let q = buildTree([1, 2]);
 
 // let tree = buildTree([3, 9, 20, null, null, 15, 7]);
 // console.log(printTree(tree));
 console.log(sameTree(p, q));
+console.log(treeSame(p, q));
