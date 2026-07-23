@@ -31,18 +31,18 @@ function buildTree(arr) {
 }
 
 function printTree(root) {
-  if (!root) return null;
+  if (!root) return [];
 
   let queue = [root];
   let printed = [];
 
   while (queue.length) {
-    let parent = queue.shift();
+    let node = queue.shift();
 
-    printed.push(parent.val);
+    printed.push(node.val);
 
-    if (parent.left) queue.push(parent.left);
-    if (parent.right) queue.push(parent.right);
+    if (node.left) queue.push(node.left);
+    if (node.right) queue.push(node.right);
   }
   return printed;
 }
