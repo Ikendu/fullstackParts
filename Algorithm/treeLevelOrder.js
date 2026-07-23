@@ -1,13 +1,21 @@
+// Given the root of a binary tree,
+// return the level order traversal of its nodes' values.
+// (i.e., from left to right, level by level).
+// Input: root = [3,9,20,null,null,15,7]
+// Output: [[3],[9,20],[15,7]]
+// Example 2:
+// Input: root = [1]
+// Output: [[1]]
+
 function TreeNode(val, left, right) {
   this.val = val === undefined ? 0 : val;
   this.left = left === undefined ? null : left;
   this.right = right === undefined ? null : right;
 }
 
-// Building a Tree from Array
-
+// Building a Tree from Array elements
 function buildTree(arr) {
-  if (arr.length === 0) return null;
+  if (arr.length < 1) return null;
 
   let root = new TreeNode(arr[0]);
   let queue = [root];
@@ -15,20 +23,16 @@ function buildTree(arr) {
 
   while (queue.length && index < arr.length) {
     let parent = queue.shift();
-    if (arr[index] !== null && arr[index] !== undefined) {
-      let left = new TreeNode(arr[index]);
-      parent.left = left;
-      queue.push(left);
+
+    if (arr[index] != null) {
+      parent.left = new TreeNode(arr[index]);
+      queue.push(parent.left);
     }
     index++;
-    if (index < arr.length) {
-      if (arr[index] !== null && arr[index] !== undefined) {
-        let right = new TreeNode(arr[index]);
-        parent.right = right;
-        queue.push(right);
-      }
+    if (index < arr.length && arr[index] != null) {
+      parent.right = new TreeNode(arr[index]);
+      queue.push(parent.right);
     }
-
     index++;
   }
   return root;
