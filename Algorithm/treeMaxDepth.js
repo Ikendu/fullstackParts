@@ -2,7 +2,7 @@
 // A binary tree's maximum depth is the number of nodes along the longest
 // path from the root node down to the farthest leaf node.
 
-function TreeNode(val, left, right) {
+export function TreeNode(val, left, right) {
   this.val = val === undefined ? 0 : val;
   this.left = left === undefined ? null : left;
   this.right = right === undefined ? null : right;
