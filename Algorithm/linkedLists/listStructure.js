@@ -17,6 +17,8 @@ export function createList(arr) {
 }
 
 export function printList(head) {
+  if (!head) return null;
+
   while (head) {
     console.log(head.val);
     head = head.next;
@@ -106,7 +108,7 @@ function reverseList(head) {
 let list = createList([3, 4, 6, 8, 10, 5]);
 
 list = insertEnd(list, 25);
-console.log(searchValue(list, 25));
+// console.log(searchValue(list, 25));
 deleteLast(list);
 deleteLastNode(list);
-printList(list);
+// printList(list);

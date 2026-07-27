@@ -58,3 +58,4 @@ function getCycle(head) {
 }
 
 // The map or set method is the same as the first one return true or false
+
