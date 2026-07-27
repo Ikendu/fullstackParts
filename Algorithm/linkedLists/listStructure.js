@@ -23,9 +23,6 @@ function printList(head) {
   }
 }
 
-let list = createList([3, 4, 6, 8, 10, 5]);
-printList(list);
-
 function insertFirst(head, value) {
   if (!head) head = new ListNode(value);
   else {
@@ -50,7 +47,66 @@ function insertEnd(head, value) {
 
   while (current.next) {
     current = current.next;
-    current.next = node;
   }
+  current.next = node;
   return head;
 }
+
+function searchValue(head, value) {
+  if (!head) return false;
+
+  while (head) {
+    if (head.val === value) return true;
+    head = head.next;
+  }
+  return false;
+}
+
+function deleteLast(head) {
+  if (!head || !head.next) return null;
+
+  let current = head.next;
+  let temp = head;
+  while (current.next) {
+    current = current.next;
+    temp = temp.next;
+  }
+  temp.next = null;
+  return head;
+}
+// OR
+function deleteLastNode(head) {
+  if (!head || !head.next) return null;
+
+  let current = head;
+
+  while (current.next.next) {
+    current = current.next;
+  }
+  current.next = null;
+
+  return head;
+}
+
+function reverseList(head) {
+  if (!head || !head.next) return head;
+
+  let current = head;
+  let prev = null;
+
+  while (current) {
+    let temp = current.next;
+    current.next = prev;
+    prev = current;
+    current = temp;
+  }
+  return prev;
+}
+
+let list = createList([3, 4, 6, 8, 10, 5]);
+
+list = insertEnd(list, 25);
+console.log(searchValue(list, 25));
+deleteLast(list);
+deleteLastNode(list);
+printList(list);
