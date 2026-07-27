@@ -1,11 +1,11 @@
-class ListNode {
+export class ListNode {
   constructor(val) {
     this.val = val;
     this.next = null;
   }
 }
 
-function createList(arr) {
+export function createList(arr) {
   let head = new ListNode(arr[0]);
   let current = head;
   for (let i = 1; i < arr.length; i++) {
@@ -16,7 +16,7 @@ function createList(arr) {
   return head;
 }
 
-function printList(head) {
+export function printList(head) {
   while (head) {
     console.log(head.val);
     head = head.next;
