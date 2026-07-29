@@ -36,4 +36,16 @@ function longestSub(nums) {
   return tails.length;
 }
 
-console.log(longestSub([7, 7, 7, 7, 7, 7, 7]));
+function longest(nums) {
+  // Using dynamic programming
+  let trace = new Array(nums.length).fill(1);
+
+  for (let i = 0; i < nums.length; i++) {
+    for (let j = 0; j < i; j++) {
+      if (nums[i] > nums[j]) trace[i] = Math.max(trace[i], trace[j] + 1);
+    }
+  }
+  return Math.max(...trace);
+}
+
+console.log(longest([10, 9, 2, 5, 3, 7, 101, 18]));
