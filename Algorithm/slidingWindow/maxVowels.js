@@ -29,4 +29,21 @@ function maxVowels(str, k) {
   return result;
 }
 
+// Using Sliding Window solution
+function maxVowel(s, k) {
+  let windows = new Set();
+  let last = 0;
+
+  for (let i = 0; i < s.length; i++) {
+    if (windows.has(s[i])) return true;
+
+    windows.add(s[i]);
+
+    if (windows.size > k) {
+      windows.delete(s[last]);
+    }
+    last++;
+  }
+  return false;
+}
 console.log(maxVowels("abciiidef", 3));
