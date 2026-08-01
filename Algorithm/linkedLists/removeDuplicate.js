@@ -42,6 +42,40 @@ function removeBothDuplicate(head) {
   return dummy.next;
 }
 
-let list = createList([1, 7, 3, 3, 4, 4, 5]);
-let result = removeBothDuplicate(list);
+// let list = createList([1, 7, 3, 3, 4, 4, 5]);
+// let result = removeBothDuplicate(list);
+// printList(result);
+
+// Remove Duplicates From an Unsorted Linked List
+// You are given the head of a linked list that contains integer values.
+// Your task is to identify all values that appear more than once in the linked list and completely
+// remove all nodes containing those duplicate values.
+
+function removeDupUnsorted(head) {
+  let freq = new Map();
+  let current = head;
+
+  while (current) {
+    freq.set(current.val, (freq.get(current.val) || 0) + 1);
+    current = current.next;
+  }
+
+  let dummy = new ListNode(0);
+  dummy.next = head;
+  current = dummy;
+
+  while (current.next) {
+    if (freq.get(current.next.val) > 1) {
+      current.next = current.next.next;
+    } else {
+      current = current.next;
+    }
+  }
+  // console.log(freq);
+  return dummy.next;
+}
+
+let list = createList([4, 1, 1, 2, 6, 4, 1, 3, 2, 7]);
+let result = removeDupUnsorted(list);
+// removeDupUnsorted(list);
 printList(result);
