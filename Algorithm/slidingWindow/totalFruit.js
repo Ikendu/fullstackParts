@@ -19,7 +19,7 @@ function totalFruits(nums) {
   //   let key = 0;
   for (let right = 0; right < nums.length; right++) {
     freq[nums[right]] = (freq[nums[right]] || 0) + 1;
-    console.log(freq);
+    // console.log(freq);
 
     while (Object.keys(freq).length > 2) {
       freq[nums[left]]--;
@@ -28,9 +28,11 @@ function totalFruits(nums) {
       }
       left++;
     }
-
     longest = Math.max(longest, right - left + 1);
-    return Object.keys(freq).length;
   }
+
+  return longest;
 }
 console.log(totalFruits([0, 1, 2, 2]));
+console.log(totalFruits([1, 2, 1]));
+console.log(totalFruits([1, 2, 3, 2, 2]));
